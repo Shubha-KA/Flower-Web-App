@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  flower-web-app:
+    image: shubha20/flower-network-web:latest
+    container_name: flower-web-app
+    ports:
+      - "3016:3015"
+  mongo-db:
+    image: shubha20/mongo:latest
+    container_name: mongodb-container
+    ports:
+      - "8000:27017"
