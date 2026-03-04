@@ -1,13 +1,38 @@
+
 version: '3.8'
 
 services:
   flower-web-app:
-    image: shubha20/flower-network-web:latest
+    image: shubha20/flower-web-app:v2.1.0
     container_name: flower-web-app
+    volumes:
+      - ./app:/usr/src/app
     ports:
-      - "3016:3015"
+      - "3017:3015"
+    environment:
+      - MONGO_URI=mongodb://admin:admin123@mongo-db:27017/AFF-Docker?authSource=admin
+      - PORT=3015
+    depends_on:
+      - mongo-db
+    networks:
+      - flower-network
+
   mongo-db:
-    image: shubha20/mongo:latest
-    container_name: mongodb-container
+    image: mongo:8.0
+    container_name: mongodb-cont
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongo-data:/data/db
     ports:
-      - "8000:27017"
+      - "27017:27017"
+    networks:
+      - flower-network
+
+volumes:
+  mongo-data:
+
+networks:
+  flower-network:
+    driver: bridge
